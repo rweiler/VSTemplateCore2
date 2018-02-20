@@ -1,35 +1,65 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+	padding-top: 50px;			/* To clear the fixed navbar at the top of the screen */
+	padding-bottom: 20px;
+}
+
+.navbar {
+	margin-bottom: 0;
+}
+
+.navbar-nav.navbar-right {
+	margin-right: 0;
 }
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+	padding: 0;
+}
+
+	.body-content h1.page-header {
+		margin-top: 0;
+	}
+
+	.body-content .content-padding {
+		padding-top: 40px;
+		padding-bottom: 40px;
+	}
+
+footer {
+	background-color: #222;
+	color: white;
+}
+
+	footer hr {
+		margin-bottom: 0;
+	}
+
+.footer-content {
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 /* Carousel */
 .carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+	font-size: 20px;
+	line-height: 1.4;
 }
 
 /* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+	width: 100%;
 }
 
 /* QR code generator */
 #qrCode {
-    margin: 15px;
+	margin: 15px;
 }
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
+	/* Hide captions */
+	.carousel-caption {
+		display: none;
+	}
 }

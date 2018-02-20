@@ -1,0 +1,39 @@
+﻿@model VSTemplateCore2.Areas.Admin.Models.NewsViewModels.DeleteViewModel
+
+@inject UserManager<ApplicationUser> userManager
+
+@{
+  ViewData["Title"] = "Delete a News Article";
+}
+
+<div class="container">
+  <h1 class="page-header">@ViewData["Title"]</h1>
+  <h3>Are you sure you want to delete this News Article?</h3>
+  <div>
+    <dl class="dl-horizontal dl-admin">
+      <dt>@Html.DisplayNameFor(model => model.Title)</dt>
+      <dd>@Html.DisplayFor(model => model.Title)</dd>
+
+      <dt>@Html.DisplayNameFor(model => model.Active)</dt>
+      <dd>@Html.DisplayFor(model => model.Active)</dd>
+
+      <dt>@Html.DisplayNameFor(model => model.Featured)</dt>
+      <dd>@Html.DisplayFor(model => model.Featured)</dd>
+
+      <dt>@Html.DisplayNameFor(model => model.Urgent)</dt>
+      <dd>@Html.DisplayFor(model => model.Urgent)</dd>
+
+      <dt>@Html.DisplayNameFor(model => model.LastUpdatedBy)</dt>
+      <dd>@await userManager.FindByIdAsync(Model.LastUpdatedBy)</dd>
+
+      <dt>@Html.DisplayNameFor(model => model.LastUpdatedOn)</dt>
+      <dd>@Html.DisplayFor(model => model.LastUpdatedOn)</dd>
+    </dl>
+
+    <form asp-action="Delete">
+      <input type="hidden" asp-for="Id" />
+      <input type="submit" value="Delete" class="btn btn-danger" />
+      <a asp-action="Index" class="button-cancel">Back to List</a>
+    </form>
+  </div>
+</div>

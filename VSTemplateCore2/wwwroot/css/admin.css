@@ -1,0 +1,200 @@
+﻿/******************************************************************************
+* Administration Portal tables
+******************************************************************************/
+.table-admin {
+	border: 1px solid #72103d;
+	margin-bottom: 0;
+}
+
+	.table-admin > thead > tr {
+		background-color: #72103d;
+		color: white;
+	}
+
+		.table-admin > thead > tr > th {
+			border-bottom: 1px solid #72103d;
+			vertical-align: middle;
+			font-weight: normal;
+		}
+
+	.table-admin > tbody > tr.section-header {
+		background-color: #b9889e;
+		color: white;
+	}
+
+	.table-admin > tbody > tr > td {
+		border-color: #72103d;
+	}
+
+		.table-admin > tbody > tr > td.col-edit {
+			text-align: center;
+			width: 37px;
+			padding-right: 4px;
+		}
+
+		.table-admin > tbody > tr > td.col-delete {
+			text-align: center;
+			width: 37px;
+			padding-left: 4px;
+		}
+
+		.table-admin > tbody > tr > td.col-ordering {
+			width: 19px;
+		}
+
+			.table-admin > tbody > tr > td.col-ordering.left {
+				padding-right: 4px;
+			}
+
+			.table-admin > tbody > tr > td.col-ordering.right {
+				padding-left: 4px;
+			}
+
+		.table-admin > tbody > tr > td.col-spacer {
+			padding-right: 12px;
+		}
+
+.admin-icon-lg {
+	font-size: 140%;
+}
+
+.admin-icon-sm {
+	font-size: 115%;
+}
+
+.admin-icon-xs {
+	font-size: 90%;
+}
+
+	.admin-icon-lg.fa-edit,
+	.admin-icon-sm.fa-edit,
+	.admin-icon-xs.fa-edit {
+		color: green;
+	}
+
+	.admin-icon-lg.fa-trash,
+	.admin-icon-sm.fa-trash,
+	.admin-icon-xs.fa-trash {
+		color: red;
+	}
+
+.dl-admin dt,
+.dl-admin dd {
+	line-height: 200%;
+}
+
+/******************************************************************************
+* Admin form column widths
+******************************************************************************/
+.col-active {
+	width: 75px;
+}
+
+.col-show-in-menu {
+	width: 100px;
+}
+
+.col-featured {
+	width: 100px;
+}
+
+.col-urgent {
+	width: 100px;
+}
+
+
+/******************************************************************************
+* Form button containers and buttons
+******************************************************************************/
+.admin-button-container {
+	text-align: right;
+}
+
+	.admin-button-container a.btn-primary {
+		background-color: #72103d;
+		border-color: #72103d;
+	}
+
+	.admin-button-container.top a.btn-primary {
+		border-bottom-color: rgba(255, 255, 255, 0.2);
+		border-radius: 6px;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	.admin-button-container.bottom a.btn-primary {
+		border-top-color: rgba(255, 255, 255, 0.2);
+		border-radius: 6px;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+/******************************************************************************
+* Administration forms
+******************************************************************************/
+.field-required:after {
+	content: "*";
+	color: #8f1336;
+	padding-left: 3px;
+}
+
+.form-horizontal .field-required:before {
+	content: "*";
+	color: #8f1336;
+	padding-right: 3px;
+}
+
+.form-horizontal .field-required:after {
+	content: "";
+}
+
+[data-admin-field="true"] label {
+	color: #8f1336
+}
+
+.field-validation-error span {
+	padding-left: 6px;
+}
+
+.field-validation-error.small span {
+	font-size: small;
+}
+
+.field-validation-error.xsmall span {
+	font-size: x-small;
+}
+
+.form-control.checkbox-inline {
+	padding-left: 30px;
+}
+
+.button-cancel {
+	padding-left: 9px;
+}
+
+div.mce-fullscreen {
+	padding-top: 50px; /* Make sure the top of the tinyMCE editor appears below the sticky header */
+}
+
+
+/******************************************************************************
+* Footer
+******************************************************************************/
+footer {
+	margin-top: 4.0rem;
+	padding: 2.0rem 0;
+	background-color: #222;
+	color: #ccc;
+}
+
+	footer p {
+		margin-bottom: 0;
+	}
+
+	footer a {
+		color: #ccc;
+	}
+
+		footer a:hover {
+			color: #ccc;
+		}

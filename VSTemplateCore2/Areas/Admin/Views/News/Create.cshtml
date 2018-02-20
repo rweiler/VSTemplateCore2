@@ -1,0 +1,119 @@
+﻿@model VSTemplateCore2.Areas.Admin.Models.NewsViewModels.CreateViewModel
+
+@using Microsoft.Extensions.Options;
+@inject IOptions<ApplicationSettings> ApplicationSettings
+
+
+@{
+  ViewData["Title"] = "Create a News Article";
+}
+
+<div class="container">
+  <h1 class="page-header">@ViewData["Title"]</h1>
+
+  <form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="text-center form-group">
+      <div class="form-inline">
+        <span class="checkbox-inline form-control" data-field="Active">
+          <input asp-for="Active" />
+          <label asp-for="Active"></label>
+        </span>
+        @if (ApplicationSettings.Value.NewsModule.FeaturedSupported) {
+          <span class="checkbox-inline form-control" data-field="Featured">
+            <input asp-for="Featured" />
+            <label asp-for="Featured"></label>
+          </span>
+        }
+        @if (ApplicationSettings.Value.NewsModule.UrgentSupported) {
+          <span class="checkbox-inline form-control" data-field="Urgent">
+            <input asp-for="Urgent" />
+            <label asp-for="Urgent"></label>
+          </span>
+        }
+      </div>
+    </div>
+    <div class="form-group" data-field="Title">
+      <label asp-for="Title" class="control-label field-required"></label>
+      <span asp-validation-for="Title" class="text-danger"></span>
+      <input asp-for="Title" class="form-control" />
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6" data-field="ArticleDate">
+          <label asp-for="ArticleDate" class="control-label field-required"></label>
+          <span asp-validation-for="ArticleDate" class="text-danger"></span>
+          <div class="input-group date">
+            <input asp-for="ArticleDate" type="text" class="form-control" />
+            <span class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6" data-field="DisplayOnDate">
+          <label asp-for="DisplayOnDate" class="control-label field-required"></label>
+          <span asp-validation-for="DisplayOnDate" class="text-danger"></span>
+          <div class="input-group date">
+            <input asp-for="DisplayOnDate" type="text" class="form-control" />
+            <span class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label asp-for="Excerpt" class="control-label"></label>
+      <span asp-validation-for="Excerpt" class="text-danger"></span>
+      <textarea asp-for="Excerpt" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+      <label asp-for="Content" class="control-label"></label>
+      <span asp-validation-for="Content" class="text-danger"></span>
+      <textarea asp-for="Content" class="mceEditor" style="height: 250px;"></textarea>
+    </div>
+    @if (ApplicationSettings.Value.NewsModule.ImageSuported) {
+      <div class="form-group">
+        <label asp-for="ImagePath" class="control-label"></label>
+        <span asp-validation-for="ImagePath" class="text-danger"></span>
+        <div class="input-group">
+          <input asp-for="ImagePath" class="form-control" />
+          <span class="input-group-addon"><i class="fa fa-image"></i></span>
+          <span class="input-group-addon"><i class="fa fa-times text-danger"></i></span>
+        </div>
+      </div>
+    }
+    @if (ApplicationSettings.Value.NewsModule.VideoSupported) {
+      <div class="form-group">
+        <label asp-for="VideoEmbedCode" class="control-label"></label>
+        <span asp-validation-for="VideoEmbedCode" class="text-danger"></span>
+        <textarea asp-for="VideoEmbedCode" class="form-control"></textarea>
+      </div>
+    }
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Create News Article</button>
+      <a asp-action="Index" class="button-cancel">Back to List</a>
+    </div>
+  </form>
+</div>
+
+@section Styles {
+  <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+}
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_tinyMCEScriptsPartial");}
+  @{await Html.RenderPartialAsync("_BoostrapDatepickerPartial");}
+
+  <script>
+    $(function() {
+      $('[data-field="ArticleDate"] div.date').datetimepicker({ keepInvalid: true, format: 'MM/DD/YYYY', stepping: 15, sideBySide: true, toolbarPlacement: 'top', showClose: true });
+      $('[data-field="DisplayOnDate"] div.date').datetimepicker({ keepInvalid: true, format: 'MM/DD/YYYY hh:mm A', stepping: 15, sideBySide: true, toolbarPlacement: 'top', showClose: true });
+      $('[data-field="ArticleDate"] div.date').on('dp.change', function(e) {
+        $('[data-field="DisplayOnDate"] div.date').data('DateTimePicker').date(moment(e.date).format('MM/DD/YYYY hh:mm A'));
+      });
+    });
+  </script>
+}

@@ -1,0 +1,119 @@
+﻿@model SitePage
+
+@{
+  ViewData["Title"] = "Create a Site Page";
+}
+
+<div class="container">
+  <h1 class="page-header">@ViewData["Title"]</h1>
+
+  <form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="text-center form-group">
+      <div class="form-inline">
+        <span class="checkbox-inline form-control" data-field="Active">
+          <input asp-for="Active" />
+          <label asp-for="Active"></label>
+        </span>
+        <span class="checkbox-inline form-control" data-field="ShowInMenu">
+          <input asp-for="ShowInMenu" />
+          <label asp-for="ShowInMenu"></label>
+        </span>
+        <span class="checkbox-inline form-control" data-field="AllowEdit" data-admin-field="true">
+          <input asp-for="AllowEdit" />
+          <label asp-for="AllowEdit"></label>
+        </span>
+        <span class="checkbox-inline form-control" data-field="AllowDelete" data-admin-field="true">
+          <input asp-for="AllowDelete" />
+          <label asp-for="AllowDelete"></label>
+        </span>
+      </div>
+    </div>
+    <div class="form-group" data-field="ParentMenu">
+      <label asp-for="ParentMenuId" class="control-label"></label>
+      <span asp-validation-for="ParentMenuId" class="text-danger"></span>
+      <select asp-for="ParentMenuId" asp-items="@ViewBag.ParentPageList" class="form-control"></select>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6" data-field="PageTitle">
+          <label asp-for="Title" class="control-label field-required"></label>
+          <span asp-validation-for="Title" class="text-danger"></span>
+          <input asp-for="Title" class="form-control" />
+        </div>
+        <div class="col-md-6" data-field="MenuTitle">
+          <label asp-for="MenuTitle" class="control-label"></label>
+          <span asp-validation-for="MenuTitle" class="text-danger"></span>
+          <input asp-for="MenuTitle" class="form-control" />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6" data-field="PageName" data-menu-section-field="false">
+          <label asp-for="Name" class="control-label"></label>
+          <span asp-validation-for="Name" class="text-danger"></span>
+          <input asp-for="Name" class="form-control" />
+        </div>
+        @*<div class="col-md-6" data-field="PageAlias" data-admin-field="true" data-menu-section-field="false">
+          <label asp-for="Alias" class="control-label"></label>
+          <span asp-validation-for="Alias" class="text-danger"></span>
+          <input asp-for="Alias" class="form-control" />
+        </div>*@
+      </div>
+    </div>
+    <div class="form-group" data-field="MetaDescription" data-menu-section-field="false">
+      <label asp-for="MetaDescription"></label>
+      <span asp-validation-for="MetaDescription" class="text-danger"></span>
+      <input asp-for="MetaDescription" class="form-control" />
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6" data-field="HandlerController" data-admin-field="true" data-menu-section-field="false">
+          <label asp-for="HandlerController" class="control-label"></label>
+          <span asp-validation-for="HandlerController" class="text-danger"></span>
+          <input asp-for="HandlerController" class="form-control" />
+        </div>
+        <div class="col-md-6" data-field="HandlerAction" data-admin-field="true" data-menu-section-field="false">
+          <label asp-for="HandlerAction" class="control-label"></label>
+          <span asp-validation-for="HandlerAction" class="text-danger"></span>
+          <input asp-for="HandlerAction" class="form-control" />
+        </div>
+      </div>
+    </div>
+    <div class="form-group" data-field="Content" data-menu-section-field="false">
+      <label asp-for="Content" class="control-label"></label>
+      <span asp-validation-for="Content" class="text-danger"></span>
+      <textarea asp-for="Content" class="form-control mceEditor"></textarea>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Create Page</button>
+      <a asp-action="Index" class="button-cancel">Back to List</a>
+    </div>
+  </form>
+</div>
+
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_tinyMCEScriptsPartial");}
+
+  <script>
+    // Set the initial state of the form
+    $(function() {
+      // If a MasterAdmin is using the page, by default the Parent Menu is set to 'This is a Root Page' so make sure Allow Delete is not checked
+      if ($('#ParentMenuId').children('option:selected').text() == 'This is a Root Page') {
+        $('#AllowDelete').prop('checked', false).prop('disabled', true);
+      }
+
+      // If the logged in user is not a Constants.MasterAdminRole user, then hide those fields only editable by Constants.MasterAdminRole
+	    @if (!User.IsInRole(Constants.MasterAdminRole)) {
+		    <text>
+        $('[data-admin-field="true"]').hide();
+        </text>
+	    }
+    });
+  </script>
+  <script src="~/js/SitePage-EventListeners.js"></script>
+}

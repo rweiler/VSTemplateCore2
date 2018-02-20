@@ -1,0 +1,24 @@
+﻿@model SitePage
+@using VSTemplateCore2.Areas.Admin.Models
+
+@{
+  Layout = "_Layout";
+
+  var MenuSection = string.Empty;
+  if (ViewData["MenuSection"] != null) {
+    MenuSection = $" | {ViewData["MenuSection"]}";
+  }
+
+  ViewData["PageTitle"] = $"{Model.Title}{MenuSection} | {ViewData["Company"]}";
+  ViewData["PageName"] = $"";
+  ViewData["MetaDescription"] = $"{Model.MetaDescription}";
+}
+
+<div class="container content-padding">
+  <h1 class="page-header">@Model.Name</h1>
+  @if (Model.Content == null) {
+    <p>No content has been defined</p>
+  } else {
+    @Html.Raw(Model.Content)
+  }
+</div>

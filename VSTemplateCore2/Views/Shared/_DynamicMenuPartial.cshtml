@@ -1,0 +1,26 @@
+﻿@using VSTemplateCore2.Areas.Admin.Data
+
+@inject ISitePageRepository _repository
+
+@{
+  var sitePages = _repository.SitePages.Where(p => (p.ParentMenuId == null || p.ParentMenuId == 0) && p.ShowInMenu == true && p.Active == true).OrderBy(p => p.MenuOrder);
+}
+
+<li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a></li>
+@foreach (var sitePage in sitePages) {
+  if (sitePage.ParentMenuId == 0) {
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@sitePage.MenuTitle <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        @{var childPages = _repository.SitePages.Where(p => p.ParentMenuId == sitePage.Id).OrderBy(p => p.MenuOrder);
+          foreach (var childPage in childPages) {
+            var parentPage = await _repository.FindByIdAsync((int)childPage.ParentMenuId);
+            <li><a asp-route="content" asp-route-menuSection="@parentPage.Alias" asp-route-pageAlias="@childPage.Alias">@childPage.MenuTitle</a></li>
+          }
+        }
+      </ul>
+    </li>
+  } else {
+    <li><a asp-route="content" asp-route-menuSection="home" asp-route-pageAlias="@sitePage.Alias">@sitePage.MenuTitle</a></li>
+  }
+}

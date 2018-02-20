@@ -1,0 +1,97 @@
+﻿@model IEnumerable<SitePage>
+@using Microsoft.AspNetCore.Authorization
+@using VSTemplateCore2.Authorization
+
+@inject IAuthorizationService AuthorizationService
+@inject ISitePageRepository repository
+
+@{
+  ViewData["Title"] = "Site Page Maintenance";
+
+  var firstItem = true;
+  var sectionCount = 0;
+}
+
+<div class="container">
+  <h2 class="page-header">@ViewData["Title"]</h2>
+
+  <div class="admin-button-container top">
+    <a asp-action="Create" class="btn btn-primary">Create a Site Page</a>
+  </div>
+  <table class="table table-admin table-striped">
+    <thead>
+      <tr>
+        <th colspan="4"></th>
+        <th>@Html.DisplayNameFor(model => model.Title)</th>
+        <th>@Html.DisplayNameFor(model => model.Alias)</th>
+        <th class="text-center">@Html.DisplayNameFor(model => model.Active)</th>
+        <th class="text-center">@Html.DisplayNameFor(model => model.ShowInMenu)</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model) {
+        if (item.ParentMenuId == 0) {
+          firstItem = true;
+          sectionCount = 0;
+          <tr class="section-header">
+            <td class="col-edit">
+              @if (User.IsInRole(Constants.MasterAdminRole)) {
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-xs btn-default"><i class="admin-icon-xs fa fa-edit"></i></a>
+              }
+            </td>
+            <td class="col-delete col-spacer">
+              @if (User.IsInRole(Constants.MasterAdminRole)) {
+                // Only display the delete icon if there are no child pages in the menu section
+                if ((Model.Count(m => m.ParentMenuId == item.Id)) == 0) {
+                  <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-xs btn-default"><i class="admin-icon-xs fa fa-trash"></i></a>
+                }
+              }
+            </td>
+            <td colspan="2"></td>
+            <td colspan="2">@Html.DisplayFor(modelItem => item.Title)</td>
+            <td class="col-active text-center">@Html.DisplayFor(modelItem => item.Active)</td>
+            <td class="col-show-in-menu text-center">@Html.DisplayFor(modelItem => item.ShowInMenu)</td>
+          </tr>
+        } else {
+          <tr>
+            <td class="col-edit">
+              @{if ((await AuthorizationService.AuthorizeAsync(User, item, Operations.Update)).Succeeded) {
+                  <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-xs btn-default"><i class="admin-icon-xs fa fa-edit"></i></a>
+                }
+              }
+            </td>
+            <td class="col-delete col-spacer">
+              @{ if ((await AuthorizationService.AuthorizeAsync(User, item, Operations.Delete)).Succeeded) {
+                  <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-xs btn-default"><i class="admin-icon-xs fa fa-trash"></i></a>
+                }
+              }
+            </td>
+            <td class="col-ordering left">
+              @if (!firstItem) {
+                <form asp-action="Reorder" asp-route-id="@item.Id" asp-route-direction="Up">
+                  <button type="submit" class="btn btn-xs btn-default"><i class="admin-icon-xs fa fa-chevron-up"></i></button>
+                </form>
+              } else {
+                firstItem = false;
+              }
+            </td>
+            <td class="col-ordering right col-spacer">
+              @if (!((await repository.CountChildPagesInSectionAsync(item.ParentMenuId)) == ++sectionCount)) {
+                <form asp-action="Reorder" asp-route-id="@item.Id" asp-route-direction="Down">
+                  <button type="submit" class="btn btn-xs btn-default"><i class="admin-icon-xs fa fa-chevron-down"></i></button>
+                </form>
+              }
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+            <td>@Html.DisplayFor(modelItem => item.Alias)</td>
+            <td class="col-active text-center">@Html.DisplayFor(modelItem => item.Active)</td>
+            <td class="col-show-in-menu text-center">@Html.DisplayFor(modelItem => item.ShowInMenu)</td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+  <div class="admin-button-container bottom">
+    <a asp-action="Create" class="btn btn-primary">Create a Site Page</a>
+  </div>
+</div>

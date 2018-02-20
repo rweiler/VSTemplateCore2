@@ -5,6 +5,20 @@
     <UserSecretsId>aspnet-VSTemplateCore2-1BA6F051-0E08-46D3-B2B3-241A0A961C1E</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="bin\MoxieManager.Core.dll" />
+    <Content Include="bin\MoxieManager.Plugins.AspNetAuthenticator.dll" />
+    <Content Include="bin\MoxieManager.Plugins.AutoFormat.dll" />
+    <Content Include="bin\MoxieManager.Plugins.AutoRename.dll" />
+    <Content Include="bin\MoxieManager.Plugins.BasicAuthenticator.dll" />
+    <Content Include="bin\MoxieManager.Plugins.ExternalAuthenticator.dll" />
+    <Content Include="bin\MoxieManager.Plugins.Favorites.dll" />
+    <Content Include="bin\MoxieManager.Plugins.History.dll" />
+    <Content Include="bin\MoxieManager.Plugins.IpAuthenticator.dll" />
+    <Content Include="bin\MoxieManager.Plugins.SessionAuthenticator.dll" />
+    <Content Include="bin\MoxieManager.Plugins.Uploaded.dll" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
@@ -16,6 +30,10 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 
 </Project>
